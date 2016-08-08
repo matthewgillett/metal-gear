@@ -1,14 +1,10 @@
 package org.finra.metal.gear.Sentiment;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.internal.Excluder;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by k26142 on 8/8/16.
@@ -16,10 +12,9 @@ import java.util.Map;
 public class SentimentFirm {
 
     private static long textIdNum = 0;
-    private static long firmIdNum = 0;
 
     private long firmId;
-    private Map<Long, SentimentText> sentimentMap;
+    private List<SentimentText> sentimentList;
     private SentimentAnalysis analyzer;
     private SentimentData database;
 
@@ -31,28 +26,28 @@ public class SentimentFirm {
         this.firmId = firmId;
         this.analyzer = analyzer;
         this.database = database;
-        sentimentMap = database.getSentimentMap(firmId);
+        sentimentList = database.getSentimentList(firmId);
 
-        if (sentimentMap == null)
-            sentimentMap = new HashMap<>();
+        if (sentimentList == null)
+            sentimentList = new ArrayList<>();
     }
 
     public void addSentiment(String userId, String text) throws SQLException {
-        sentimentMap.put(++textIdNum, new SentimentText(userId, text, analyzer.determineSentiment(text)));
-        database.insertTextData(firmId, textIdNum, sentimentMap.get(textIdNum));
+        sentimentList.add(new SentimentText(userId, text, analyzer.determineSentiment(text)));
+        database.insertTextData(firmId, sentimentList.get(sentimentList.size() - 1));
     }
 
-    public void updateAverageSentiment() {
-        getAverageSentiment();
+    public void updateAverageSentiment() throws SQLException {
+        database.updateAverageSentiment(firmId, getAverageSentiment());
     }
 
     public int getAverageSentiment() {
         double total = 0;
-        for (Map.Entry<Long, SentimentText> sentiment : sentimentMap.entrySet()) {
-            total += sentiment.getValue().getSentimentDecimal();
+        for (SentimentText sentiment : sentimentList) {
+            total += sentiment.getSentimentDecimal();
         }
 
-        return (int)Math.round(total / sentimentMap.size());
+        return (int)Math.round(total / sentimentList.size());
     }
 
     public String getAverageSentimentJson() {
@@ -64,13 +59,6 @@ public class SentimentFirm {
     public String getSentimentTextJson() {
         Gson gson = new Gson();
 
-        List<SentimentText> sentimentList = new ArrayList<>();
-
-        for (Map.Entry<Long, SentimentText> entry : sentimentMap.entrySet()) {
-            sentimentList.add(entry.getValue());
-        }
-
         return gson.toJson(sentimentList);
-
     }
 }

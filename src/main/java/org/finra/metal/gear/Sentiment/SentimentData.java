@@ -1,13 +1,13 @@
 package org.finra.metal.gear.Sentiment;
 
 import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 import com.google.common.io.Resources;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Created by k26142 on 8/8/16.
@@ -22,7 +22,7 @@ public class SentimentData {
             properties.setProperty("user", userName);
         if (password != null)
             properties.setProperty("password", password);
-        properties.setProperty("ssl", "true");
+//        properties.setProperty("ssl", "true");
         connection = DriverManager.getConnection("jdbc:postgresql://" + hostName + ":" + port + "/" + dbName,
                 properties);
     }
@@ -33,15 +33,15 @@ public class SentimentData {
         stmt.executeUpdate(Resources.toString(Resources.getResource("sentiment.sql"), Charsets.UTF_8));
     }
 
-    public Map<Long, SentimentText> getSentimentMap(long firmId) throws SQLException {
-        Map<Long, SentimentText> sentimentMap = new HashMap<>();
+    public List<SentimentText> getSentimentList(long firmId) throws SQLException {
+        List<SentimentText> sentimentMap = new ArrayList<>();
 
         try (Statement stmt = connection.createStatement()) {
             try (ResultSet rs = stmt.executeQuery("SELECT * FROM texts " +
                     "WHERE firm_id = '" + firmId + "'")) {
                 while (rs.next()) {
                     SentimentText data = new SentimentText(rs.getString(3), rs.getString(4), rs.getDouble(5));
-                    sentimentMap.put(rs.getLong(1), data);
+                    sentimentMap.add(data);
                 }
             }
         }
@@ -49,14 +49,13 @@ public class SentimentData {
         return sentimentMap;
     }
 
-    public boolean insertTextData(long firmId, long textId, SentimentText textData) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO texts VALUES (?, ?, ?, ?, ?)")) {
+    public boolean insertTextData(long firmId, SentimentText textData) throws SQLException {
+        try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO texts VALUES (nextval('text_id_num'), ?, ?, ?, ?)")) {
 
-            stmt.setLong(1, textId);
-            stmt.setLong(2, firmId);
-            stmt.setString(3, textData.getUserId());
-            stmt.setString(4, textData.getText());
-            stmt.setDouble(5, textData.getSentimentDecimal());
+            stmt.setLong(1, firmId);
+            stmt.setString(2, textData.getUserId());
+            stmt.setString(3, textData.getText());
+            stmt.setDouble(4, textData.getSentimentDecimal());
 
             return stmt.execute();
         }
@@ -94,9 +93,25 @@ public class SentimentData {
         return null;
     }
 
-    public void initFirms(String filePath, String delimiter) throws SQLException {
+    public int[] loadFirms(String resource, String delimiter) throws IOException, SQLException {
         try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate("copy " + filePath + " to firms (delimiter '" + delimiter + "')");
+            stmt.executeUpdate("delete from firms");
+        }
+
+        String data = Resources.toString(Resources.getResource(resource), Charsets.UTF_8);
+
+        String[] lines = data.split("\n");
+
+        try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO firms VALUES (?, ?)")) {
+            for (String line : lines) {
+                String[] values = line.split(delimiter);
+
+                stmt.setLong(1, Long.valueOf(values[0]));
+                stmt.setString(2, values[6]);
+
+                stmt.addBatch();
+            }
+            return stmt.executeBatch();
         }
     }
 }
