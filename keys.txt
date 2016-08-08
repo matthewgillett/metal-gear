@@ -1,0 +1,3 @@
+Consumer Key (API Key)	Nmg3FqZZH1YzZ2RXtkOJRUnUb
+Consumer Secret (API Secret)	SxoQIaRuqNQVjkqHvJ3NtjQb57l0owlaQsoqm3SodzKIg5FJmV
+
