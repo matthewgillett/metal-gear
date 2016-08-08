@@ -1,5 +1,7 @@
 package org.finra.metal.gear.Sentiment;
 
+import com.google.gson.Gson;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,21 +10,24 @@ import java.util.Map;
  */
 public class SentimentFirm {
 
+    private static long textIdNum = 0;
+
     private long firmId;
     private Map<Long, Double> sentimentMap;
-    private SentimentText sentimentText;
+    private Map<Long, SentimentText> textMap;
     private SentimentAnalysis analyzer;
 
     public SentimentFirm(SentimentAnalysis analyzer, long firmId) {
         this.firmId = firmId;
         this.analyzer = analyzer;
-        sentimentText = new SentimentText(firmId);
         sentimentMap = new HashMap<>();
+        textMap = new HashMap<>();
     }
 
-    public void addSentiment(String text) {
-        long textId = sentimentText.addText(text);
-        sentimentMap.put(textId, analyzer.determineSentiment(text));
+    public void addSentiment(String userId, String text) {
+
+        textMap.put(++textIdNum, new SentimentText(userId, text));
+        sentimentMap.put(textIdNum, analyzer.determineSentiment(text));
     }
 
     public int getAverageSentiment() {
@@ -32,5 +37,17 @@ public class SentimentFirm {
         }
 
         return (int)Math.round(total / sentimentMap.size());
+    }
+
+    public String getAverageSentimentJson() {
+        Gson gson = new Gson();
+
+        return gson.toJson(new SentimentValue(getAverageSentiment()));
+    }
+
+    public String getSentimentTextJson() {
+        Gson gson = new Gson();
+
+        return gson.toJson(textMap);
     }
 }

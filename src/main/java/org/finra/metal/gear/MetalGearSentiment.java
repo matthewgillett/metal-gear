@@ -12,10 +12,11 @@ public class MetalGearSentiment {
 
         SentimentFirm firm = new SentimentFirm(analyzer, 1);
 
-        firm.addSentiment("This is a good text string.");
-        firm.addSentiment("This is a bad text string.");
-        firm.addSentiment("This is the best string in the whole world; it is fantastic!");
+        firm.addSentiment("Some_user1", "This is a good text string.");
+        firm.addSentiment("Some_user3", "This is a bad text string.");
+        firm.addSentiment("Some_user1", "This is the best string in the whole world; it is fantastic!");
 
-        System.out.println(firm.getAverageSentiment());
+        System.out.println(firm.getAverageSentimentJson());
+        System.out.println(firm.getSentimentTextJson());
     }
 }
