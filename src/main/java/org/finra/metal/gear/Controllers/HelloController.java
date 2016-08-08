@@ -41,30 +41,24 @@ public class HelloController {
     }
 
     @RequestMapping(value = "/twitter/tweets/{firmId}", method = RequestMethod.GET)
-    public String helloTwitter(@PathVariable String firmId) throws SQLException {
+    public String helloTwitter(@PathVariable Long firmId) throws SQLException {
         SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
-        SentimentData database = new SentimentData("localhost", 5439, "metalgear");
+        SentimentData database = new SentimentData("localhost", 5439, "metalgear", null, null);
         String firmName = database.getFirmName(firmId);
+        firmName = "Bank of America";
 
-        SentimentFirm firm = new SentimentFirm(analyzer, database, Integer.parseInt(firmId));
-
+        SentimentFirm firm = new SentimentFirm(analyzer, database, firmId);
         processTweets(firmName, firm);
 
-        firm.addSentiment("Some_user1", "This is a good text string.");
-        firm.addSentiment("Some_user3", "This is a bad text string.");
-        firm.addSentiment("Some_user1", "This is the best string in the whole world; it is fantastic!");
-
         System.out.println(firm.getSentimentTextJson());
-        
         String sentText = firm.getSentimentTextJson();
-    	
     	return sentText;
     }
 
     @RequestMapping(value = "/twitter/sentiment/{firmId}", method = RequestMethod.GET)
     public String sentimentTwitter(@PathVariable String firmId) throws SQLException {
         SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
-        SentimentData database = new SentimentData("localhost", 5439, "metalgear");
+        SentimentData database = new SentimentData("localhost", 5439, "metalgear", null, null);
 
         SentimentFirm firm = new SentimentFirm(analyzer, database, Integer.parseInt(firmId));
 
@@ -82,7 +76,7 @@ public class HelloController {
     @RequestMapping(value = "/twitter/news/{firmId}", method = RequestMethod.GET)
     public String newsTwitter(@PathVariable String firmId) throws SQLException {
         SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
-        SentimentData database = new SentimentData("localhost", 5439, "metalgear");
+        SentimentData database = new SentimentData("localhost", 5439, "metalgear", null, null);
 
         SentimentFirm firm = new SentimentFirm(analyzer, database, Integer.parseInt(firmId));
 
@@ -100,7 +94,7 @@ public class HelloController {
     @RequestMapping(value = "/twitter/daygraph/{firmId}", method = RequestMethod.GET)
     public String dayGraphTwitter(@PathVariable String firmId) throws SQLException {
         SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
-        SentimentData database = new SentimentData("localhost", 5439, "metalgear");
+        SentimentData database = new SentimentData("localhost", 5439, "metalgear", null, null);
 
         SentimentFirm firm = new SentimentFirm(analyzer, database, Integer.parseInt(firmId));
 
