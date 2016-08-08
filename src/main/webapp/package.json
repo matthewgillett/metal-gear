@@ -63,10 +63,14 @@
   },
   "dependencies": {
     "core-js": "^2.0.0",
+    "fetch-polyfill": "^0.8.2",
+    "isomorphic-fetch": "^2.2.1",
+    "json-loader": "^0.5.4",
     "normalize.css": "^4.0.0",
     "react": "^15.0.0",
     "react-dom": "^15.0.0",
     "react-redux": "^4.4.5",
-    "redux": "^3.5.2"
+    "redux": "^3.5.2",
+    "whatwg-fetch": "^1.0.0"
   }
 }

@@ -14,8 +14,8 @@ import Main from '../components/Main';
 /* Populated by react-webpack-redux:reducer */
 class App extends Component {
   render() {
-    const {actions, search} = this.props;
-    return <Main actions={actions} search={search}/>;
+    const {actions, search, emotion} = this.props;
+    return <Main actions={actions} search={search} emotion={emotion}/>;
   }
 }
 /* Populated by react-webpack-redux:reducer
@@ -29,12 +29,18 @@ App.propTypes = {
 };
 function mapStateToProps(state) {
   /* Populated by react-webpack-redux:reducer */
-  const props = { search: state.search };
+  const props = {
+    search: state.search,
+    emotion: state.emotion
+  };
   return props;
 }
 function mapDispatchToProps(dispatch) {
   /* Populated by react-webpack-redux:action */
-  const actions = { search: require('../actions/search.js') };
+  const actions = {
+    search: require('../actions/search.js'),
+    emotion: require('../actions/emotion.js')
+  };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;
 }

@@ -10,9 +10,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MetalGear {
 
-    @RequestMapping("/test")
-    public String index() {
-        return "templates/connect/twitterConnect.html";
+    @RequestMapping("/twitterr")
+    public String twitter() {
+        return "twitter";
+    }
+
+    @RequestMapping("/sentiment")
+    public String sentiment() {
+        return "sentiment";
+    }
+
+    @RequestMapping("/news")
+    public String news() {
+        return "news";
+    }
+
+    @RequestMapping("/dayGraph")
+    public String dayGraph() {
+        return "dayGraph";
     }
 
 }
