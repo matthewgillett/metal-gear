@@ -1,8 +1,13 @@
 package org.finra.metal.gear.Sentiment;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.internal.Excluder;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,27 +18,29 @@ public class SentimentFirm {
     private static long textIdNum = 0;
 
     private long firmId;
-    private Map<Long, Double> sentimentMap;
-    private Map<Long, SentimentText> textMap;
+    private Map<Long, SentimentText> sentimentMap;
     private SentimentAnalysis analyzer;
+    private SentimentData database;
 
-    public SentimentFirm(SentimentAnalysis analyzer, long firmId) {
+    public SentimentFirm(SentimentAnalysis analyzer, SentimentData database, long firmId) throws SQLException {
         this.firmId = firmId;
         this.analyzer = analyzer;
-        sentimentMap = new HashMap<>();
-        textMap = new HashMap<>();
+        this.database = database;
+        sentimentMap = database.getSentimentMap(firmId);
+
+        if (sentimentMap == null)
+            sentimentMap = new HashMap<>();
     }
 
-    public void addSentiment(String userId, String text) {
-
-        textMap.put(++textIdNum, new SentimentText(userId, text));
-        sentimentMap.put(textIdNum, analyzer.determineSentiment(text));
+    public void addSentiment(String userId, String text) throws SQLException {
+        sentimentMap.put(++textIdNum, new SentimentText(userId, text, analyzer.determineSentiment(text)));
+        database.insertTextData(firmId, textIdNum, sentimentMap.get(textIdNum));
     }
 
     public int getAverageSentiment() {
         double total = 0;
-        for (Map.Entry<Long, Double> sentiment : sentimentMap.entrySet()) {
-            total += sentiment.getValue();
+        for (Map.Entry<Long, SentimentText> sentiment : sentimentMap.entrySet()) {
+            total += sentiment.getValue().getSentimentDecimal();
         }
 
         return (int)Math.round(total / sentimentMap.size());
@@ -48,6 +55,13 @@ public class SentimentFirm {
     public String getSentimentTextJson() {
         Gson gson = new Gson();
 
-        return gson.toJson(textMap);
+        List<SentimentText> sentimentList = new ArrayList<>();
+
+        for (Map.Entry<Long, SentimentText> entry : sentimentMap.entrySet()) {
+            sentimentList.add(entry.getValue());
+        }
+
+        return gson.toJson(sentimentList);
+
     }
 }
