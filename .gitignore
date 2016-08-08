@@ -2,4 +2,6 @@
 **/.idea
 **/*.iml
 src/main/webapp/node_modules
- src/main/webapp/dist
+src/main/webapp/dist
+src/main/webapp/dist/assets
+src/main/webapp/dist/index.html
