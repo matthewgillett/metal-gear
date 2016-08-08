@@ -10,24 +10,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MetalGear {
 
+    String json = "{ \"key\" : \"value\" }";
+
     @RequestMapping("/twitterr")
     public String twitter() {
-        return "twitter";
+        return json;
     }
 
     @RequestMapping("/sentiment")
     public String sentiment() {
-        return "sentiment";
+        return json;
     }
 
     @RequestMapping("/news")
     public String news() {
-        return "news";
+        return json;
     }
 
     @RequestMapping("/dayGraph")
     public String dayGraph() {
-        return "dayGraph";
+        return json;
     }
 
 }
