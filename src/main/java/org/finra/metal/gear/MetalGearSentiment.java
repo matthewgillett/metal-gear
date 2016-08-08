@@ -13,6 +13,8 @@ public class MetalGearSentiment {
         SentimentFirm firm = new SentimentFirm(analyzer, 1);
 
         firm.addSentiment("This is a good text string.");
+        firm.addSentiment("This is a bad text string.");
+        firm.addSentiment("This is the best string in the whole world; it is fantastic!");
 
         System.out.println(firm.getAverageSentiment());
     }

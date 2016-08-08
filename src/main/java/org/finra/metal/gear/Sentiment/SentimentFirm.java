@@ -31,6 +31,6 @@ public class SentimentFirm {
             total += sentiment.getValue();
         }
 
-        return (int) total / sentimentMap.size();
+        return (int)Math.round(total / sentimentMap.size());
     }
 }
