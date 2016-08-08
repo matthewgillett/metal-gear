@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MetalGear {
 
-    @RequestMapping("/")
+    @RequestMapping("/test")
     public String index() {
-        return "Welcome to Metal Gear";
+        return "templates/connect/twitterConnect.html";
     }
 
 }
