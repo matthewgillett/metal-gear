@@ -16,6 +16,7 @@ class SearchComponent extends React.Component {
 		}
 		if (val !== oldVal) {
 			this.props.searchFunc(val);
+			this.props.emoteFunc();
 			oldVal = val;
 		}
 	}
