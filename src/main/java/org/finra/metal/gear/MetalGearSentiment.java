@@ -11,7 +11,7 @@ import java.sql.SQLException;
  * Created by k26142 on 8/8/16.
  */
 public class MetalGearSentiment {
-    public static void main(String[] args) throws IOException, SQLException {
+/*    public static void main(String[] args) throws IOException, SQLException {
         SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
         SentimentData database = new SentimentData("localhost", 5439, "metalgear");
 
@@ -25,5 +25,5 @@ public class MetalGearSentiment {
 
         System.out.println(firm.getAverageSentimentJson());
         System.out.println(firm.getSentimentTextJson());
-    }
+    }*/
 }
