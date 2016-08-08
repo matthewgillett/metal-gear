@@ -50,6 +50,19 @@
 			<groupId>org.springframework.social</groupId>
 			<artifactId>spring-social-twitter</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>edu.stanford.nlp</groupId>
+			<artifactId>stanford-corenlp</artifactId>
+			<version>3.6.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>edu.stanford.nlp</groupId>
+			<artifactId>stanford-corenlp</artifactId>
+			<version>3.6.0</version>
+			<classifier>models-english</classifier>
+		</dependency>
 	</dependencies>
 
 	<build>
