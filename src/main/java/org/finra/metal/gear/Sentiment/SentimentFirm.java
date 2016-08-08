@@ -16,11 +16,16 @@ import java.util.Map;
 public class SentimentFirm {
 
     private static long textIdNum = 0;
+    private static long firmIdNum = 0;
 
     private long firmId;
     private Map<Long, SentimentText> sentimentMap;
     private SentimentAnalysis analyzer;
     private SentimentData database;
+
+    public SentimentFirm(SentimentAnalysis analyzer, SentimentData database, String firmName) throws SQLException {
+        this(analyzer, database, database.getFirmId(firmName));
+    }
 
     public SentimentFirm(SentimentAnalysis analyzer, SentimentData database, long firmId) throws SQLException {
         this.firmId = firmId;
@@ -35,6 +40,10 @@ public class SentimentFirm {
     public void addSentiment(String userId, String text) throws SQLException {
         sentimentMap.put(++textIdNum, new SentimentText(userId, text, analyzer.determineSentiment(text)));
         database.insertTextData(firmId, textIdNum, sentimentMap.get(textIdNum));
+    }
+
+    public void updateAverageSentiment() {
+        getAverageSentiment();
     }
 
     public int getAverageSentiment() {

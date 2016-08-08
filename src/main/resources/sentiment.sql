@@ -10,5 +10,12 @@ sentiment decimal
 DROP TABLE IF EXISTS firms;
 CREATE TABLE firms (
 firm_id bigint,
-sentiment integer
+firm_name varchar(50)
+);
+
+DROP TABLE IF EXISTS sentiments;
+CREATE TABLE sentiments (
+firm_id bigint,
+avg_sentiment integer,
+update_ts timestamp
 );
