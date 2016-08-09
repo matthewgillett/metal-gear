@@ -6,3 +6,5 @@ export const FEED = 'FEED';
 export const CLEAR = 'CLEAR';
 export const CLEANUP = 'CLEANUP';
 export const FETCH_SMILEY = 'FETCH_SMILEY';
+export const CHART = 'CHART';
+export const TIMELINE = 'TIMELINE';

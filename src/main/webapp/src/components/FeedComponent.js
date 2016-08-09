@@ -9,10 +9,10 @@ class FeedComponent extends React.Component {
   	var update = this.props.feedFunc;
   	setInterval(function() {
     	update();
-	}, 1000 * 30);
+	}, 1000 * 60);
     return (
       <div className="container feed-container">
-      <table className="table table-responsive">
+      <table className="table">
 	    <thead>
 	      <tr>
 	        <th>Username</th>
@@ -24,7 +24,7 @@ class FeedComponent extends React.Component {
 	    {this.props.tweets.map(tweet => {
 	      return <tr key={this.key}>
 	        <td>{tweet.name}</td>
-	        <td>{tweet.text}</td>
+	        <td className="wrap-td">{tweet.text}</td>
 	        <td>{tweet.sentiment}</td>
 		  </tr>
 	    })}

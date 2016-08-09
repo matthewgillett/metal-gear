@@ -1,4 +1,3 @@
-import {REQUEST_SMILEY} from './const';
 import fetch from 'isomorphic-fetch';
 import emotion from './emotion'
 
