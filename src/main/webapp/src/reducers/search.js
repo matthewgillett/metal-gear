@@ -27,9 +27,7 @@ module.exports = function(state = initialState, action) {
       if (curr.feed !== undefined && curr.feed.length > 10) {
         curr.feed.shift();
       }
-      if (curr.feed === undefined) {
         curr.feed = [];
-      }
 
       action.parameter.forEach(function(param) {
         curr.feed.push({

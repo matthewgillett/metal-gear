@@ -9,7 +9,6 @@ module.exports = function(parameter) {
 			return response.json();
 		})
 		.then(function(json) {
-			console.log(json);
 			dispatch(emotion(json.sentiment));
 		})
 	}
