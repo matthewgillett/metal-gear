@@ -73,7 +73,7 @@ public class SentimentFirm {
     public String getAverageSentimentJson() throws SQLException {
         Gson gson = new Gson();
 
-        return gson.toJson(new SentimentValue(database.getAverageSentiment(firmId)));
+        return gson.toJson(new SentimentValue(database.getAverageSentiment(firmId), database.getFirmName(firmId)));
     }
 
     public String getSentimentTextJson() {

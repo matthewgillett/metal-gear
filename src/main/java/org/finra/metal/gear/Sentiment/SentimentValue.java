@@ -5,8 +5,10 @@ package org.finra.metal.gear.Sentiment;
  */
 public class SentimentValue {
     private int sentiment;
+    private String firmName;
 
-    public SentimentValue(int sentiment) {
+    public SentimentValue(int sentiment, String firmName) {
         this.sentiment = sentiment;
+        this.firmName = firmName;
     }
 }
