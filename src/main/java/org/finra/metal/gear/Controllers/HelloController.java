@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 public class HelloController {
 
-    private static final String AWS_SERVER = "metal-gear1.c9dfyqjobtqf.us-east-1.rds.amazonaws.com:5432";
+    private static final String AWS_SERVER = "metal-gear1.c9dfyqjobtqf.us-east-1.rds.amazonaws.com";
     private static final int AWS_PORT = 5432;
     private static final String AWS_DBNAME = "metal_gear";
     private static final String SCHEMA = "metalgear";
