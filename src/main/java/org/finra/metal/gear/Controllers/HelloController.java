@@ -52,10 +52,9 @@ public class HelloController {
         SentimentData database = new SentimentData(AWS_SERVER, AWS_PORT, AWS_DBNAME, "metal_gear", "metal_gear");
         database.setSchema(SCHEMA);
         String firmName = database.getFirmName(firmId);
-        firmName = "Bank of America";
 
         SentimentFirm firm = new SentimentFirm(analyzer, database, firmId);
-//        processTweets(firmName, firm);
+        processTweets(firmName, firm);
 
         System.out.println(firm.getSentimentTextJson());
         String sentText = firm.getSentimentTextJson();
