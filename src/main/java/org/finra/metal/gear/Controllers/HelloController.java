@@ -19,9 +19,10 @@ import java.util.List;
 @RestController
 public class HelloController {
 
-    private static final String AWS_SERVER = "metal-gear.c9dfyqjobtqf.us-east-1.rds.amazonaws.com";
+    private static final String AWS_SERVER = "metal-gear1.c9dfyqjobtqf.us-east-1.rds.amazonaws.com:5432";
     private static final int AWS_PORT = 5432;
     private static final String AWS_DBNAME = "metal_gear";
+    private static final String SCHEMA = "metalgear";
 
     private void processTweets(String firmName, SentimentFirm firm) throws SQLException {
         Twitter twitter = new TwitterFactory().getInstance();
@@ -50,6 +51,7 @@ public class HelloController {
         SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
 //        SentimentData database = new SentimentData("localhost", 5439, "metalgear", null, null);
         SentimentData database = new SentimentData(AWS_SERVER, AWS_PORT, AWS_DBNAME, "metal_gear", "metal_gear");
+        database.setSchema(SCHEMA);
         String firmName = database.getFirmName(firmId);
         firmName = "Bank of America";
 
@@ -66,6 +68,7 @@ public class HelloController {
         SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
 //        SentimentData database = new SentimentData( "localhost", 5439, "metalgear", null, null);
         SentimentData database = new SentimentData(AWS_SERVER, AWS_PORT, AWS_DBNAME, "metal_gear", "metal_gear");
+        database.setSchema(SCHEMA);
 
         SentimentFirm firm = new SentimentFirm(analyzer, database, Integer.parseInt(firmId));
 
@@ -85,6 +88,7 @@ public class HelloController {
         SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
 //        SentimentData database = new SentimentData( "localhost", 5439, "metalgear", null, null);
         SentimentData database = new SentimentData(AWS_SERVER, AWS_PORT, AWS_DBNAME, "metal_gear", "metal_gear");
+        database.setSchema(SCHEMA);
 
         SentimentFirm firm = new SentimentFirm(analyzer, database, Integer.parseInt(firmId));
 
@@ -104,6 +108,7 @@ public class HelloController {
         SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
 //        SentimentData database = new SentimentData( "localhost", 5439, "metalgear", null, null);
         SentimentData database = new SentimentData(AWS_SERVER, AWS_PORT, AWS_DBNAME, "metal_gear", "metal_gear");
+        database.setSchema(SCHEMA);
 
         SentimentFirm firm = new SentimentFirm(analyzer, database, Integer.parseInt(firmId));
 

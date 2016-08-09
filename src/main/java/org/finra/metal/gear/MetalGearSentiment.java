@@ -15,7 +15,7 @@ public class MetalGearSentiment {
 //    public static void main(String[] args) throws IOException, SQLException {
 //
 //        SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
-//        SentimentData database = new SentimentData("metal-gear.c9dfyqjobtqf.us-east-1.rds.amazonaws.com", 5432, "metal_gear", "metal_gear", "metal_gear");
+//        SentimentData database = new SentimentData("metal-gear1.c9dfyqjobtqf.us-east-1.rds.amazonaws.com:5432", 5432, "metal_gear", "metal_gear", "metal_gear");
 ////        SentimentData database = new SentimentData("localhost", 5439, "metalgear", null, null);
 //
 //        database.initDatabase();
