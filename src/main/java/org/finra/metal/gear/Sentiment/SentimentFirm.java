@@ -60,7 +60,10 @@ public class SentimentFirm {
             total += sentiment.getSentimentDecimal();
         }
 
-        return (int)Math.round(total / sentimentList.size());
+        double avg = total / ((double)sentimentList.size());
+        long round = Math.round(avg);
+
+        return (int)round;
     }
 
     public Timestamp getLastUpdate() throws SQLException {
