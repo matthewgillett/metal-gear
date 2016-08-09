@@ -4,7 +4,6 @@
  *          This modifications only run once when the generator is invoked - if
  *          you edit them, they are not updated again.
  */
-
 import React, {
   Component,
   PropTypes
@@ -44,14 +43,14 @@ function mapDispatchToProps(dispatch) {
     typeahead: require('../actions/typeahead.js'),
     feed: require('../actions/feed.js'),
     clear: require('../actions/clear.js'),
-    request_smiley: require('../actions/request_smiley.js')
+    request_smiley: require('../actions/request_smiley.js'),
+    request_feed: require('../actions/request_feed.js'),
+    chart: require('../actions/chart.js'),
+    request_chart: require('../actions/request_chart.js'),
+    timeline: require('../actions/timeline.js'),
+    request_timeline: require('../actions/request_timeline.js')
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
-
-  //Add fetch stuff
-  actionMap.fetchSmiley = function(serachVal) {
-  }
-
   return actionMap;
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App);

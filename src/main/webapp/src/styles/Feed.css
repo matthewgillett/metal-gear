@@ -1,7 +1,15 @@
 table {
-	height: 250px;
+	max-height: 600px;
+	border-left: 1px solid #4099FF;
+	border-radius: 10px;
 }
 
 .feed-container {
-	height: 250px;
+	max-height: 250px;
+	max-width:300px;
+}
+
+.wrap-td {
+	word-wrap: break-word;
+	max-width: 220px;
 }

@@ -14,35 +14,49 @@ module.exports = function(state = initialState, action) {
         searchParam: action.parameter
       });
     }
+
     case 'EMOTION': {
       //Create the new state object
-      console.log(action.parameter)
       return Object.assign({}, state, {
         smiley: action.parameter
       });
     }
+
     case 'FEED': {
       var curr = Object.assign({}, state, {});
       if (curr.feed !== undefined && curr.feed.length > 10) {
-        curr.feed = [];
-        return curr;
+        curr.feed.shift();
       }
       if (curr.feed === undefined) {
         curr.feed = [];
       }
       curr.feed.push({
           key: curr.feed.length,
-          name: Math.random(),
-          text: 'hello',
-          sentiment: 4
+          name: action.parameter[0],
+          text: action.parameter[1],
+          sentiment: action.parameter[2]
       });
       return curr;
     }
+
     case 'CLEAR' : {
       return Object.assign({}, state, {
         feed: []
       });
     }
+
+    case 'CHART' : {
+      return Object.assign({}, state, {
+        chart: {}
+      });
+    }
+
+    case 'TIMELINE' : {
+      return Object.assign({}, state, {
+        timeline: {}
+      });
+    }
+
     default: {
       /* Return original state if no actions were consumed. */
       return state;
