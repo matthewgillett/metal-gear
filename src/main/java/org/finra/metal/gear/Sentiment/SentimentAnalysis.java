@@ -31,7 +31,6 @@ public class SentimentAnalysis {
         int count = 0;
 
         for (CoreMap sentence : sentences) {
-            System.out.println(sentence.toString());
             Tree tree = sentence.get(SentimentCoreAnnotations.SentimentAnnotatedTree.class);
             total += RNNCoreAnnotations.getPredictedClass(tree);
             count++;

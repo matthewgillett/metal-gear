@@ -12,8 +12,6 @@ import java.util.List;
  */
 public class SentimentFirm {
 
-    private static long textIdNum = 0;
-
     private long firmId;
     private List<SentimentText> sentimentList;
     private SentimentAnalysis analyzer;

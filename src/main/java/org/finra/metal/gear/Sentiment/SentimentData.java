@@ -1,10 +1,8 @@
 package org.finra.metal.gear.Sentiment;
 
 import com.google.common.base.Charsets;
-import com.google.common.io.Files;
 import com.google.common.io.Resources;
 
-import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
