@@ -19,6 +19,10 @@ import java.util.List;
 @RestController
 public class HelloController {
 
+    private static final String AWS_SERVER = "metal-gear.c9dfyqjobtqf.us-east-1.rds.amazonaws.com";
+    private static final int AWS_PORT = 5432;
+    private static final String AWS_DBNAME = "metal_gear";
+
     private void processTweets(String firmName, SentimentFirm firm) throws SQLException {
         Twitter twitter = new TwitterFactory().getInstance();
         try {
@@ -38,17 +42,19 @@ public class HelloController {
             System.out.println("Failed to search tweets: " + te.getMessage());
             System.exit(-1);
         }
+        firm.updateAverageSentiment();
     }
 
     @RequestMapping(value = "/twitter/tweets/{firmId}", method = RequestMethod.GET)
     public String helloTwitter(@PathVariable Long firmId) throws SQLException {
         SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
-        SentimentData database = new SentimentData("localhost", 5439, "metalgear", null, null);
+//        SentimentData database = new SentimentData("localhost", 5439, "metalgear", null, null);
+        SentimentData database = new SentimentData(AWS_SERVER, AWS_PORT, AWS_DBNAME, "metal_gear", "metal_gear");
         String firmName = database.getFirmName(firmId);
         firmName = "Bank of America";
 
         SentimentFirm firm = new SentimentFirm(analyzer, database, firmId);
-        processTweets(firmName, firm);
+//        processTweets(firmName, firm);
 
         System.out.println(firm.getSentimentTextJson());
         String sentText = firm.getSentimentTextJson();
@@ -58,13 +64,14 @@ public class HelloController {
     @RequestMapping(value = "/twitter/sentiment/{firmId}", method = RequestMethod.GET)
     public String sentimentTwitter(@PathVariable String firmId) throws SQLException {
         SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
-        SentimentData database = new SentimentData( "localhost", 5439, "metalgear", null, null);
+//        SentimentData database = new SentimentData( "localhost", 5439, "metalgear", null, null);
+        SentimentData database = new SentimentData(AWS_SERVER, AWS_PORT, AWS_DBNAME, "metal_gear", "metal_gear");
 
         SentimentFirm firm = new SentimentFirm(analyzer, database, Integer.parseInt(firmId));
 
-        firm.addSentiment("Some_user1", "This is a good text string.");
-        firm.addSentiment("Some_user3", "This is a bad text string.");
-        firm.addSentiment("Some_user1", "This is the best string in the whole world; it is fantastic!");
+//        firm.addSentiment("Some_user1", "This is a good text string.");
+//        firm.addSentiment("Some_user3", "This is a bad text string.");
+//        firm.addSentiment("Some_user1", "This is the best string in the whole world; it is fantastic!");
 
         System.out.println(firm.getAverageSentimentJson());
 
@@ -76,7 +83,8 @@ public class HelloController {
     @RequestMapping(value = "/twitter/news/{firmId}", method = RequestMethod.GET)
     public String newsTwitter(@PathVariable String firmId) throws SQLException {
         SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
-        SentimentData database = new SentimentData( "localhost", 5439, "metalgear", null, null);
+//        SentimentData database = new SentimentData( "localhost", 5439, "metalgear", null, null);
+        SentimentData database = new SentimentData(AWS_SERVER, AWS_PORT, AWS_DBNAME, "metal_gear", "metal_gear");
 
         SentimentFirm firm = new SentimentFirm(analyzer, database, Integer.parseInt(firmId));
 
@@ -94,7 +102,8 @@ public class HelloController {
     @RequestMapping(value = "/twitter/daygraph/{firmId}", method = RequestMethod.GET)
     public String dayGraphTwitter(@PathVariable String firmId) throws SQLException {
         SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
-        SentimentData database = new SentimentData( "localhost", 5439, "metalgear", null, null);
+//        SentimentData database = new SentimentData( "localhost", 5439, "metalgear", null, null);
+        SentimentData database = new SentimentData(AWS_SERVER, AWS_PORT, AWS_DBNAME, "metal_gear", "metal_gear");
 
         SentimentFirm firm = new SentimentFirm(analyzer, database, Integer.parseInt(firmId));
 
