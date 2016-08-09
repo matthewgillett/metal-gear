@@ -3,10 +3,8 @@ package org.finra.metal.gear.Controllers;
 import org.finra.metal.gear.Sentiment.SentimentAnalysis;
 import org.finra.metal.gear.Sentiment.SentimentData;
 import org.finra.metal.gear.Sentiment.SentimentFirm;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import twitter4j.*;
 
 import java.sql.SQLException;
@@ -47,6 +45,7 @@ public class HelloController {
     }
 
     @RequestMapping(value = "/twitter/tweets/{firmId}", method = RequestMethod.GET)
+    @CrossOrigin(origins = "http://localhost:8000")
     public String helloTwitter(@PathVariable Long firmId) throws SQLException {
         SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
 //        SentimentData database = new SentimentData("localhost", 5439, "metalgear", null, null);
@@ -64,6 +63,7 @@ public class HelloController {
     }
 
     @RequestMapping(value = "/twitter/sentiment/{firmId}", method = RequestMethod.GET)
+    @CrossOrigin(origins = "http://localhost:8000")
     public String sentimentTwitter(@PathVariable String firmId) throws SQLException {
         SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
 //        SentimentData database = new SentimentData( "localhost", 5439, "metalgear", null, null);
@@ -84,6 +84,7 @@ public class HelloController {
     }
 
     @RequestMapping(value = "/twitter/news/{firmId}", method = RequestMethod.GET)
+    @CrossOrigin(origins = "http://localhost:8000")
     public String newsTwitter(@PathVariable String firmId) throws SQLException {
         SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
 //        SentimentData database = new SentimentData( "localhost", 5439, "metalgear", null, null);
@@ -104,6 +105,7 @@ public class HelloController {
     }
 
     @RequestMapping(value = "/twitter/daygraph/{firmId}", method = RequestMethod.GET)
+    @CrossOrigin(origins = "http://localhost:8000")
     public String dayGraphTwitter(@PathVariable String firmId) throws SQLException {
         SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
 //        SentimentData database = new SentimentData( "localhost", 5439, "metalgear", null, null);
