@@ -30,12 +30,16 @@ module.exports = function(state = initialState, action) {
       if (curr.feed === undefined) {
         curr.feed = [];
       }
-      curr.feed.push({
-          key: curr.feed.length,
-          name: action.parameter[0],
-          text: action.parameter[1],
-          sentiment: action.parameter[2]
+
+      action.parameter.forEach(function(param) {
+        curr.feed.push({
+            key: curr.feed.length,
+            name: param[0],
+            text: param[1],
+            sentiment: param[2]
+        });
       });
+
       return curr;
     }
 

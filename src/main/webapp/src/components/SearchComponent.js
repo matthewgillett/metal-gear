@@ -22,7 +22,7 @@ class SearchComponent extends React.Component {
 		if (val !== oldVal) {
 			this.props.clearFunc()
 			this.props.searchFunc(val);
-			this.props.requestFeed();
+			this.props.requestFeed(val);
 			this.props.requestSmiley(val);
 			oldVal = val;
 		}

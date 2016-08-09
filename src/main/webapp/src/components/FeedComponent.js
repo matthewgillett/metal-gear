@@ -7,9 +7,6 @@ require('styles//Feed.css');
 class FeedComponent extends React.Component {
   render() {
   	var update = this.props.feedFunc;
-  	setInterval(function() {
-    	update();
-	}, 1000 * 60);
     return (
       <div className="container feed-container">
       <table className="table">
