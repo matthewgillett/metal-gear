@@ -6,6 +6,9 @@ src/main/webapp/dist
 src/main/webapp/dist/assets
 src/main/webapp/dist/index.html
 
+src/main/webapp/assets
+src/main/webapp/index.html
+
 .settings/
 .classpath
 .project
