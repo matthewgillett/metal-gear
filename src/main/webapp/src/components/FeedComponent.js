@@ -39,7 +39,7 @@ class FeedComponent extends React.Component {
 	      return <tr key={this.key}>
 	        <td>{tweet.name}</td>
 	        <td className="wrap-td">{tweet.text}</td>
-	        <td className="smile-icon"><img src={getSmiley(tweet.sentiment)} id="feel-image"/></td>
+	        <td className="smile-icon"><img src={getSmiley(tweet.sentiment)} id="feed-smile"/></td>
 		  </tr>
 	    })}
 	    </tbody>
