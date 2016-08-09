@@ -10,7 +10,8 @@ module.exports = function(parameter) {
 			return response.json();
 		})
 		.then(function(json) {
-			dispatch(emotion(json.key));
+			console.log(json);
+			dispatch(emotion(json.sentiment));
 		})
 	}
 };
