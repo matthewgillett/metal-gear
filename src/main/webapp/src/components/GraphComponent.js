@@ -36,7 +36,7 @@ class GraphComponent extends React.Component {
 	for (var key in sentMap) {
 		builder.push({
 			label: key,
-			value: sentMap[key]/denom * 100
+			value: Math.round(sentMap[key]/denom * 100)
 		});
 	}
 
