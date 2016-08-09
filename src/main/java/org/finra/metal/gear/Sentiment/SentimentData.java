@@ -86,6 +86,19 @@ public class SentimentData {
                 "(nextval('" + schemaNameDot + "text_id_num'), ?, ?, ?, ?)");
     }
 
+    public int getAverageSentiment(long firmId) throws SQLException {
+        try (Statement stmt = connection.createStatement()) {
+            try (ResultSet rs = stmt.executeQuery("select avg_sentiment from " + schemaNameDot + "sentiments " +
+                    "where firm_id = '" + firmId + "' " +
+                    "order by update_ts desc limit 1")) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        }
+        return -1;
+    }
+
     public int updateAverageSentiment(long firmId, int sentiment) throws SQLException {
         try (Statement stmt = connection.createStatement()) {
             return stmt.executeUpdate("insert into " + schemaNameDot + "sentiments values ('" + firmId + "', " +
