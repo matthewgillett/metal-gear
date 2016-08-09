@@ -12,6 +12,8 @@ import java.util.*;
  */
 public class SentimentData {
     private Connection connection;
+    private String schemaName = "";
+    private String schemaNameDot = "";
 
     public SentimentData(String hostName, int port, String dbName, String userName, String password) throws SQLException {
 
@@ -26,6 +28,11 @@ public class SentimentData {
                 properties);
     }
 
+    public void setSchema(String schemaName) {
+        this.schemaName = schemaName;
+        this.schemaNameDot = schemaName + ".";
+    }
+
     public void initDatabase() throws IOException, SQLException {
         Statement stmt = connection.createStatement();
 
@@ -36,7 +43,7 @@ public class SentimentData {
         List<SentimentText> sentimentMap = new ArrayList<>();
 
         try (Statement stmt = connection.createStatement()) {
-            try (ResultSet rs = stmt.executeQuery("SELECT * FROM texts " +
+            try (ResultSet rs = stmt.executeQuery("SELECT * FROM " + schemaNameDot + "texts " +
                     "WHERE firm_id = '" + firmId + "'")) {
                 while (rs.next()) {
                     SentimentText data = new SentimentText(rs.getString(3), rs.getString(4), rs.getDouble(5));
@@ -75,19 +82,20 @@ public class SentimentData {
     }
 
     private PreparedStatement insertTextDataPrepare() throws SQLException {
-        return connection.prepareStatement("INSERT INTO texts VALUES (nextval('text_id_num'), ?, ?, ?, ?)");
+        return connection.prepareStatement("INSERT INTO " + schemaNameDot + "texts VALUES " +
+                "(nextval('" + schemaNameDot + "text_id_num'), ?, ?, ?, ?)");
     }
 
     public int updateAverageSentiment(long firmId, int sentiment) throws SQLException {
         try (Statement stmt = connection.createStatement()) {
-            return stmt.executeUpdate("insert into sentiments values ('" + firmId + "', " +
+            return stmt.executeUpdate("insert into " + schemaNameDot + "sentiments values ('" + firmId + "', " +
                     sentiment + ", now())");
         }
     }
 
     public Timestamp getLastUpdate(long firmId) throws SQLException {
         try (Statement stmt = connection.createStatement()) {
-            try (ResultSet rs = stmt.executeQuery("select update_ts from sentiments " +
+            try (ResultSet rs = stmt.executeQuery("select update_ts from " + schemaNameDot + "sentiments " +
                     "where firm_id = '" + firmId + "' " +
                     "order by update_ts desc limit 1")) {
                 if (rs.next()) {
@@ -100,7 +108,7 @@ public class SentimentData {
 
     public long getFirmId(String firmName) throws SQLException {
         try (Statement stmt = connection.createStatement()) {
-            try (ResultSet rs = stmt.executeQuery("SELECT firm_id FROM firms " +
+            try (ResultSet rs = stmt.executeQuery("SELECT " + schemaNameDot + "firm_id FROM " + schemaNameDot + "firms " +
                     "WHERE firm_name = '" + firmName + "'")) {
                 if (rs.next()) {
                     return rs.getLong(1);
@@ -112,7 +120,7 @@ public class SentimentData {
 
     public String getFirmName(long firmId) throws SQLException {
         try (Statement stmt = connection.createStatement()) {
-            try (ResultSet rs = stmt.executeQuery("SELECT firm_id FROM firms " +
+            try (ResultSet rs = stmt.executeQuery("SELECT firm_id FROM " + schemaNameDot + "firms " +
                     "WHERE firm_id = '" + firmId + "'")) {
                 if (rs.next()) {
                     return rs.getString(1);
@@ -124,14 +132,14 @@ public class SentimentData {
 
     public int[] loadFirms(String resource, String delimiter) throws IOException, SQLException {
         try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate("delete from firms");
+            stmt.executeUpdate("delete from " + schemaNameDot + "firms");
         }
 
         String data = Resources.toString(Resources.getResource(resource), Charsets.UTF_8);
 
         String[] lines = data.split("\n");
 
-        try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO firms VALUES (?, ?)")) {
+        try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO " + schemaNameDot + "firms VALUES (?, ?)")) {
             for (String line : lines) {
                 String[] values = line.split(delimiter);
 
