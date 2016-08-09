@@ -40,8 +40,6 @@ class GraphComponent extends React.Component {
 		});
 	}
 
-	console.log(builder);
-
   	var pieData = builder;
     return (
       <div className="graph-component">

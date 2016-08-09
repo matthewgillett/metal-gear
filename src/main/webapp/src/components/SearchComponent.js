@@ -33,7 +33,7 @@ class SearchComponent extends React.Component {
 	    		{smile}
 	    	</div>
 	    	<div className="cold-med-8 text-left">
-		      <h1>{this.props.searchParam}</h1>
+		      <h1>{this.props.firmName}</h1>
 		       <form onSubmit={submit}>
 		         <div className="col-md-6 col-md-offset-3">
 		        	<div className="input-group input-group-lg">

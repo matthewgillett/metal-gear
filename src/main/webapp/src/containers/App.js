@@ -48,7 +48,8 @@ function mapDispatchToProps(dispatch) {
     chart: require('../actions/chart.js'),
     request_chart: require('../actions/request_chart.js'),
     timeline: require('../actions/timeline.js'),
-    request_timeline: require('../actions/request_timeline.js')
+    request_timeline: require('../actions/request_timeline.js'),
+    title: require('../actions/title.js')
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;

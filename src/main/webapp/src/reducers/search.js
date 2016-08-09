@@ -22,6 +22,12 @@ module.exports = function(state = initialState, action) {
       });
     }
 
+    case 'TITLE': {
+      return Object.assign({}, state, {
+        firmName: action.parameter
+      });
+    }
+
     case 'FEED': {
       var curr = Object.assign({}, state, {});
       if (curr.feed !== undefined && curr.feed.length > 10) {

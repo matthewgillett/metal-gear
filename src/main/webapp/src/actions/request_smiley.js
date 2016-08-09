@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import emotion from './emotion'
+import title from './title';
 
 module.exports = function(parameter) {
 	return dispatch => {
@@ -10,6 +11,7 @@ module.exports = function(parameter) {
 		})
 		.then(function(json) {
 			dispatch(emotion(json.sentiment));
+			dispatch(title(json.firmName));
 		})
 	}
 };

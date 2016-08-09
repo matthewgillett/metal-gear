@@ -23,7 +23,7 @@ class AppComponent extends React.Component {
     return (
 	    <div>
 	      <div className="container-fluid">
-	      <Search smiley={this.props.search.smiley} searchParam={this.props.search.searchParam} searchFunc={this.props.actions.search} requestSmiley={this.props.actions.request_smiley} requestFeed={this.props.actions.request_feed} clearFunc={this.props.actions.clear}/>
+	      <Search firmName={this.props.search.firmName} smiley={this.props.search.smiley} searchParam={this.props.search.searchParam} searchFunc={this.props.actions.search} requestSmiley={this.props.actions.request_smiley} requestFeed={this.props.actions.request_feed} clearFunc={this.props.actions.clear}/>
 	      </div>
 	      <div className="container-fluid">
 	      	<div className="row sent-row">

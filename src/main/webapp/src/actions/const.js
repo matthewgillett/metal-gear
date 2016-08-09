@@ -8,3 +8,4 @@ export const CLEANUP = 'CLEANUP';
 export const FETCH_SMILEY = 'FETCH_SMILEY';
 export const CHART = 'CHART';
 export const TIMELINE = 'TIMELINE';
+export const TITLE = 'TITLE';
