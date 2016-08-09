@@ -13,14 +13,15 @@ import java.util.List;
 public class SentimentFirm {
 
     private long firmId;
+    private String firmName;
     private List<SentimentText> sentimentList;
     private List<SentimentText> sentimentListBatch;
     private SentimentAnalysis analyzer;
     private SentimentData database;
 
-    public SentimentFirm(SentimentAnalysis analyzer, SentimentData database, String firmName) throws SQLException {
-        this(analyzer, database, database.getFirmId(firmName));
-    }
+//    public SentimentFirm(SentimentAnalysis analyzer, SentimentData database, String firmName) throws SQLException {
+//        this(analyzer, database, database.getFirmId(firmName));
+//    }
 
     public SentimentFirm(SentimentAnalysis analyzer, SentimentData database, long firmId) throws SQLException {
         this.firmId = firmId;
@@ -31,6 +32,8 @@ public class SentimentFirm {
 
         if (sentimentList == null)
             sentimentList = new ArrayList<>();
+
+        this.firmName = database.getFirmName(firmId);
     }
 
     public boolean addSentiment(String userId, String text) throws SQLException {
@@ -73,7 +76,7 @@ public class SentimentFirm {
     public String getAverageSentimentJson() throws SQLException {
         Gson gson = new Gson();
 
-        return gson.toJson(new SentimentValue(database.getAverageSentiment(firmId), database.getFirmName(firmId)));
+        return gson.toJson(new SentimentValue(database.getAverageSentiment(firmId), firmName));
     }
 
     public String getSentimentTextJson() {
