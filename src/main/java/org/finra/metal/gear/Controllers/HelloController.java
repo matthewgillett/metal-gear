@@ -93,9 +93,9 @@ public class HelloController {
 
         SentimentFirm firm = new SentimentFirm(analyzer, database, Integer.parseInt(firmId));
 
-        firm.addSentiment("Some_user1", "This is a good text string.");
-        firm.addSentiment("Some_user3", "This is a bad text string.");
-        firm.addSentiment("Some_user1", "This is the best string in the whole world; it is fantastic!");
+//        firm.addSentiment("Some_user1", "This is a good text string.");
+//        firm.addSentiment("Some_user3", "This is a bad text string.");
+//        firm.addSentiment("Some_user1", "This is the best string in the whole world; it is fantastic!");
 
         System.out.println(firm.getAverageSentimentJson());
 
@@ -114,9 +114,9 @@ public class HelloController {
 
         SentimentFirm firm = new SentimentFirm(analyzer, database, Integer.parseInt(firmId));
 
-        firm.addSentiment("Some_user1", "This is a good text string.");
-        firm.addSentiment("Some_user3", "This is a bad text string.");
-        firm.addSentiment("Some_user1", "This is the best string in the whole world; it is fantastic!");
+//        firm.addSentiment("Some_user1", "This is a good text string.");
+//        firm.addSentiment("Some_user3", "This is a bad text string.");
+//        firm.addSentiment("Some_user1", "This is the best string in the whole world; it is fantastic!");
 
         System.out.println(firm.getAverageSentimentJson());
 
