@@ -3,7 +3,9 @@ import emotion from './emotion'
 
 module.exports = function(parameter) {
 	return dispatch => {
-		return fetch('http://localhost:8080/sentiment')
+		var url = 'http://localhost:8080/twiter/sentiment/' + parameter;
+		console.log(url);
+		return fetch(url)
 		.then(function(response) {
 			return response.json();
 		})
