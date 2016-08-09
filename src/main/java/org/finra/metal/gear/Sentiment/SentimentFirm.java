@@ -14,6 +14,7 @@ public class SentimentFirm {
 
     private long firmId;
     private List<SentimentText> sentimentList;
+    private List<SentimentText> sentimentListBatch;
     private SentimentAnalysis analyzer;
     private SentimentData database;
 
@@ -26,18 +27,31 @@ public class SentimentFirm {
         this.analyzer = analyzer;
         this.database = database;
         sentimentList = database.getSentimentList(firmId);
+        sentimentListBatch = new ArrayList<>();
 
         if (sentimentList == null)
             sentimentList = new ArrayList<>();
     }
 
-    public void addSentiment(String userId, String text) throws SQLException {
+    public boolean addSentiment(String userId, String text) throws SQLException {
         sentimentList.add(new SentimentText(userId, text, analyzer.determineSentiment(text)));
-        database.insertTextData(firmId, sentimentList.get(sentimentList.size() - 1));
+        return database.insertTextData(firmId, sentimentList.get(sentimentList.size() - 1));
     }
 
-    public void updateAverageSentiment() throws SQLException {
-        database.updateAverageSentiment(firmId, getAverageSentiment());
+    public void addSentimentBatch(String userId, String text) {
+        sentimentListBatch.add(new SentimentText(userId, text, analyzer.determineSentiment(text)));
+    }
+
+    public int[] executeBatch() throws SQLException {
+        int[] ret = database.insertTextDataBatch(firmId, sentimentListBatch);
+        sentimentList.addAll(sentimentListBatch);
+        sentimentListBatch.clear();
+
+        return ret;
+    }
+
+    public int updateAverageSentiment() throws SQLException {
+        return database.updateAverageSentiment(firmId, getAverageSentiment());
     }
 
     public int getAverageSentiment() {
@@ -62,6 +76,16 @@ public class SentimentFirm {
     public String getSentimentTextJson() {
         Gson gson = new Gson();
 
-        return gson.toJson(sentimentList);
+        List<List<String>> outerList = new ArrayList<>();
+
+        for (SentimentText sentimentText : sentimentList) {
+            List<String> innerList = new ArrayList<>();
+            innerList.add(sentimentText.getUserId());
+            innerList.add(sentimentText.getText());
+            innerList.add(String.valueOf(sentimentText.getSentimentInteger()));
+            outerList.add(innerList);
+        }
+
+        return gson.toJson(outerList);
     }
 }

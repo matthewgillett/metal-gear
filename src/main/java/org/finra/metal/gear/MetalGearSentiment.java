@@ -22,10 +22,11 @@ public class MetalGearSentiment {
 //
 //        SentimentFirm firm = new SentimentFirm(analyzer, database, 7726);
 //
-//        firm.addSentiment("Some_user1", "This is a good text string.");
-//        firm.addSentiment("Some_user3", "This is a bad text string.");
-//        firm.addSentiment("Some_user1", "This is the best string in the whole world; it is fantastic!");
+//        firm.addSentimentBatch("Some_user1", "This is a good text string.");
+//        firm.addSentimentBatch("Some_user3", "This is a bad text string.");
+//        firm.addSentimentBatch("Some_user1", "This is the best string in the whole world; it is fantastic!");
 //
+//        firm.executeBatch();
 //        firm.updateAverageSentiment();
 //
 //        System.out.println(firm.getAverageSentimentJson());

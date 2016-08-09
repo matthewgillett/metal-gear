@@ -49,15 +49,33 @@ public class SentimentData {
     }
 
     public boolean insertTextData(long firmId, SentimentText textData) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO texts VALUES (nextval('text_id_num'), ?, ?, ?, ?)")) {
-
-            stmt.setLong(1, firmId);
-            stmt.setString(2, textData.getUserId());
-            stmt.setString(3, textData.getText());
-            stmt.setDouble(4, textData.getSentimentDecimal());
+        try (PreparedStatement stmt = insertTextDataPrepare()) {
+            insertTextDataValues(stmt, firmId, textData);
 
             return stmt.execute();
         }
+    }
+
+    public int[] insertTextDataBatch(long firmId, List<SentimentText> textDataList) throws SQLException {
+        try (PreparedStatement stmt = insertTextDataPrepare()) {
+            for (SentimentText textData : textDataList) {
+                insertTextDataValues(stmt, firmId, textData);
+                stmt.addBatch();
+            }
+
+            return stmt.executeBatch();
+        }
+    }
+
+    private void insertTextDataValues(PreparedStatement stmt, long firmId, SentimentText textData) throws SQLException {
+        stmt.setLong(1, firmId);
+        stmt.setString(2, textData.getUserId());
+        stmt.setString(3, textData.getText());
+        stmt.setDouble(4, textData.getSentimentDecimal());
+    }
+
+    private PreparedStatement insertTextDataPrepare() throws SQLException {
+        return connection.prepareStatement("INSERT INTO texts VALUES (nextval('text_id_num'), ?, ?, ?, ?)");
     }
 
     public int updateAverageSentiment(long firmId, int sentiment) throws SQLException {
