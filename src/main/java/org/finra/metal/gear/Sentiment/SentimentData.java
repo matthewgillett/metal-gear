@@ -1,9 +1,7 @@
 package org.finra.metal.gear.Sentiment;
 
-import com.amazonaws.services.rds.AmazonRDSClient;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import org.finra.metal.gear.Infrastructure.AwsClientFactory;
 
 import java.io.IOException;
 import java.sql.*;
@@ -15,14 +13,7 @@ import java.util.*;
 public class SentimentData {
     private Connection connection;
 
-    private final AwsClientFactory awsClientFactory;
-
-    public SentimentData(AwsClientFactory awsClientFactory) {
-        this.awsClientFactory = awsClientFactory;
-    }
-
     public SentimentData(String hostName, int port, String dbName, String userName, String password) throws SQLException {
-        this.awsClientFactory = null;
 
         Properties properties = new Properties();
 

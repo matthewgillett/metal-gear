@@ -1,6 +1,5 @@
 package org.finra.metal.gear.Controllers;
 
-import org.finra.metal.gear.Infrastructure.AwsClientFactory;
 import org.finra.metal.gear.Sentiment.SentimentAnalysis;
 import org.finra.metal.gear.Sentiment.SentimentData;
 import org.finra.metal.gear.Sentiment.SentimentFirm;
@@ -19,12 +18,6 @@ import java.util.List;
 
 @RestController
 public class HelloController {
-
-    private static AwsClientFactory awsClientFactory;
-
-    public HelloController(AwsClientFactory awsClientFactory) {
-        this.awsClientFactory = awsClientFactory;
-    }
 
     private void processTweets(String firmName, SentimentFirm firm) throws SQLException {
         Twitter twitter = new TwitterFactory().getInstance();
@@ -65,7 +58,7 @@ public class HelloController {
     @RequestMapping(value = "/twitter/sentiment/{firmId}", method = RequestMethod.GET)
     public String sentimentTwitter(@PathVariable String firmId) throws SQLException {
         SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
-        SentimentData database = new SentimentData("localhost", 5439, "metalgear", null, null);
+        SentimentData database = new SentimentData( "localhost", 5439, "metalgear", null, null);
 
         SentimentFirm firm = new SentimentFirm(analyzer, database, Integer.parseInt(firmId));
 
@@ -83,7 +76,7 @@ public class HelloController {
     @RequestMapping(value = "/twitter/news/{firmId}", method = RequestMethod.GET)
     public String newsTwitter(@PathVariable String firmId) throws SQLException {
         SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
-        SentimentData database = new SentimentData("localhost", 5439, "metalgear", null, null);
+        SentimentData database = new SentimentData( "localhost", 5439, "metalgear", null, null);
 
         SentimentFirm firm = new SentimentFirm(analyzer, database, Integer.parseInt(firmId));
 
@@ -101,7 +94,7 @@ public class HelloController {
     @RequestMapping(value = "/twitter/daygraph/{firmId}", method = RequestMethod.GET)
     public String dayGraphTwitter(@PathVariable String firmId) throws SQLException {
         SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
-        SentimentData database = new SentimentData("localhost", 5439, "metalgear", null, null);
+        SentimentData database = new SentimentData( "localhost", 5439, "metalgear", null, null);
 
         SentimentFirm firm = new SentimentFirm(analyzer, database, Integer.parseInt(firmId));
 
