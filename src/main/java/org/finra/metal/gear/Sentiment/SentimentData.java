@@ -133,7 +133,7 @@ public class SentimentData {
 
     public String getFirmName(long firmId) throws SQLException {
         try (Statement stmt = connection.createStatement()) {
-            try (ResultSet rs = stmt.executeQuery("SELECT firm_id FROM " + schemaNameDot + "firms " +
+            try (ResultSet rs = stmt.executeQuery("SELECT firm_name FROM " + schemaNameDot + "firms " +
                     "WHERE firm_id = '" + firmId + "'")) {
                 if (rs.next()) {
                     return rs.getString(1);
