@@ -27,7 +27,7 @@ class SmileyComponent extends React.Component {
   	}(this.props.smiley));
 
     return (
-      <div className="smiley-component">
+      <div className="smiley-component container">
       	<img src={emoticon} id="feel-image"/>
       </div>
     );

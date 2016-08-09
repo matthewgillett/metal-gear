@@ -23,7 +23,8 @@ let config = Object.assign({}, baseConfig, {
       searchResolveModulesDirectories: false
     }),
     new webpack.ProvidePlugin({
-        'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+        'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch',
+        'Promise': 'es6-promise'
     }),
   ],
   module: defaultSettings.getDefaultModules(),

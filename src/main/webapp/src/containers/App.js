@@ -4,6 +4,7 @@
  *          This modifications only run once when the generator is invoked - if
  *          you edit them, they are not updated again.
  */
+
 import React, {
   Component,
   PropTypes
@@ -39,9 +40,18 @@ function mapDispatchToProps(dispatch) {
   /* Populated by react-webpack-redux:action */
   const actions = {
     search: require('../actions/search.js'),
-    emotion: require('../actions/emotion.js')
+    emotion: require('../actions/emotion.js'),
+    typeahead: require('../actions/typeahead.js'),
+    feed: require('../actions/feed.js'),
+    clear: require('../actions/clear.js'),
+    request_smiley: require('../actions/request_smiley.js')
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
+
+  //Add fetch stuff
+  actionMap.fetchSmiley = function(serachVal) {
+  }
+
   return actionMap;
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App);

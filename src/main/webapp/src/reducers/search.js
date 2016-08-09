@@ -5,8 +5,6 @@
  */
 const initialState = {};
 
-import fetch from 'isomorphic-fetch'
-
 module.exports = function(state = initialState, action) {
   switch(action.type) {
     case 'SEARCH': {
@@ -18,17 +16,31 @@ module.exports = function(state = initialState, action) {
     }
     case 'EMOTION': {
       //Create the new state object
+      console.log(action.parameter)
+      return Object.assign({}, state, {
+        smiley: action.parameter
+      });
+    }
+    case 'FEED': {
       var curr = Object.assign({}, state, {});
-      if (curr.searchParam === undefined) return curr;
-      fetch('http://www.reddit.com/r/programming.json')
-      .then(response => {
-        return response.json();
-      })
-      .then(json => {
-        return json.data.children.map(child => child.data);
-      }).then(function(info) {
-        console.log(info);
+      if (curr.feed !== undefined && curr.feed.length > 10) {
+        curr.feed = [];
         return curr;
+      }
+      if (curr.feed === undefined) {
+        curr.feed = [];
+      }
+      curr.feed.push({
+          key: curr.feed.length,
+          name: Math.random(),
+          text: 'hello',
+          sentiment: 4
+      });
+      return curr;
+    }
+    case 'CLEAR' : {
+      return Object.assign({}, state, {
+        feed: []
       });
     }
     default: {

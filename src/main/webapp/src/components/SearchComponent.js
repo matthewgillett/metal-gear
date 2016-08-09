@@ -15,8 +15,10 @@ class SearchComponent extends React.Component {
 			return;
 		}
 		if (val !== oldVal) {
+			this.props.clearFunc()
 			this.props.searchFunc(val);
-			this.props.emoteFunc();
+			this.props.feedFunc();
+			this.props.requestSmiley(val);
 			oldVal = val;
 		}
 	}
@@ -26,13 +28,22 @@ class SearchComponent extends React.Component {
 	       <form onSubmit={submit}>
 	         <div className="col-md-6 col-md-offset-3">
 	        	<div className="input-group input-group-lg">
-	            <input type="text" className="form-control" placeholder="Search a firm" value={val} onChange={e => {
+	            <input type="text" className="form-control dropdown-toggle" placeholder="Search a firm" value={val} onChange={e => {
 	            	val = e.target.value;
 	            }}/>
 	            <submit className="btn btn-primary input-group-addon" onSubmit={submit} onClick={submit}>Search</submit>
 	          </div>
+      	        <ul className="list-group hidden">
+				  <li className="list-group-item">Cras justo odio</li>
+				  <li className="list-group-item">Dapibus ac facilisis in</li>
+				</ul>
 	        </div>
 	      </form>
+         <ul className="dropdown-menu">
+		    <li><a href="#">HTML</a></li>
+		    <li><a href="#">CSS</a></li>
+		    <li><a href="#">JavaScript</a></li>
+		 </ul>
 	    </div>
     );
   }
