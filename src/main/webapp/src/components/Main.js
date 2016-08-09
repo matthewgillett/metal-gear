@@ -16,7 +16,7 @@ class AppComponent extends React.Component {
   	var graph
   	var timeline;
   	if (this.props.search.searchParam !== undefined) {
-  		feed = <Feed tweets= {this.props.search.feed} feedFunc={this.props.actions.request_feed}/>
+  		feed = <Feed miley={this.props.search.smiley} tweets= {this.props.search.feed} feedFunc={this.props.actions.request_feed}/>
   		graph = <Graph searchParam = {this.props.search.searchParam}/>
   		timeline = <Timeline/>
   	}
