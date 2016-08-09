@@ -21,8 +21,8 @@ public class SentimentData {
         this.awsClientFactory = awsClientFactory;
     }
 
-    public SentimentData(AwsClientFactory awsClientFactory, String hostName, int port, String dbName, String userName, String password) throws SQLException {
-        this.awsClientFactory = awsClientFactory;
+    public SentimentData(String hostName, int port, String dbName, String userName, String password) throws SQLException {
+        this.awsClientFactory = null;
 
         Properties properties = new Properties();
 
@@ -100,9 +100,6 @@ public class SentimentData {
     }
 
     public long getFirmId(String firmName) throws SQLException {
-
-        AmazonRDSClient amazonRDSClient = awsClientFactory.createRDSClient();
-
         try (Statement stmt = connection.createStatement()) {
             try (ResultSet rs = stmt.executeQuery("SELECT firm_id FROM firms " +
                     "WHERE firm_name = '" + firmName + "'")) {
