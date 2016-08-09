@@ -1,29 +1,57 @@
 'use strict';
 
 import React from 'react';
-import {LineChart} from 'react-d3';
+import {PieChart} from 'react-d3';
 
 require('styles//Graph.css');
 
 class GraphComponent extends React.Component {
   render() {
-	var lineData = [
-	  {
-	    values: [ { x: 0, y: 20 },{ x: 24, y: 10 }]
-	  }
-	];
-	var chartSeries= [{
-		color: '#ff7f0e'
-	}];
+  	var denom = this.props.tweets.length;
+  	var builder = [];
+
+  	function mapSentimentToEmotion(sentiment) {
+  		switch(sentiment) {
+  			case '0': return 'Very Sad';
+  			case '1': return 'Sad';
+  			case '2': return 'Neutral';
+  			case '3': return 'Happy';
+  			case '4': return 'Very Happy';
+  			default: return 'No value';
+  		}
+
+  	}
+
+  	var sentMap = {};
+	this.props.tweets.forEach(function(tweet) {
+		var key = mapSentimentToEmotion(tweet.sentiment);
+		if (sentMap[key] === undefined) {
+			sentMap[key] = 1;
+		} else {
+			sentMap[key] += 1;
+		}
+	});
+
+	var pieData = [];
+	for (var key in sentMap) {
+		builder.push({
+			label: key,
+			value: sentMap[key]/denom * 100
+		});
+	}
+
+	console.log(builder);
+
+  	var pieData = builder;
     return (
       <div className="graph-component">
-      <LineChart
-		  legend={true}
-		  data={lineData}
-		  width={650}
-		  height={250}
-		  title="Line Chart"
-		  chartSeries={chartSeries}
+		<PieChart
+		  data={pieData}
+		  width={400}
+		  height={400}
+		  radius={100}
+		  innerRadius={20}
+		  title="Percentage for sentiment"
 		/>
       </div>
     );
