@@ -54,7 +54,7 @@ public class HelloController {
         String firmName = database.getFirmName(firmId);
 
         SentimentFirm firm = new SentimentFirm(analyzer, database, firmId);
-        processTweets(firmName, firm);
+        //processTweets(firmName, firm);
 
         System.out.println(firm.getSentimentTextJson());
         String sentText = firm.getSentimentTextJson();
