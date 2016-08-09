@@ -1,8 +1,13 @@
 package org.finra.metal.gear;
 
+import org.finra.metal.gear.Infrastructure.AwsClientFactory;
+import org.finra.metal.gear.Infrastructure.InfrastructureConfiguration;
 import org.finra.metal.gear.Sentiment.SentimentAnalysis;
 import org.finra.metal.gear.Sentiment.SentimentData;
 import org.finra.metal.gear.Sentiment.SentimentFirm;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -10,10 +15,21 @@ import java.sql.SQLException;
 /**
  * Created by k26142 on 8/8/16.
  */
+@SpringBootApplication
+@EnableAutoConfiguration
+@Import({ InfrastructureConfiguration.class })
 public class MetalGearSentiment {
-/*    public static void main(String[] args) throws IOException, SQLException {
+
+    private static AwsClientFactory awsClientFactory;
+
+    public MetalGearSentiment(AwsClientFactory awsClientFactory) {
+        this.awsClientFactory = awsClientFactory;
+    }
+
+    public static void main(String[] args) throws IOException, SQLException {
+
         SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
-        SentimentData database = new SentimentData("localhost", 5439, "metalgear", null, null);
+        SentimentData database = new SentimentData(awsClientFactory, "metal-gear.c9dfyqjobtqf.us-east-1.rds.amazonaws.com", 5432, "metal_gear", "metal_gear", "metal_gear");
 
         database.initDatabase();
 
@@ -25,5 +41,5 @@ public class MetalGearSentiment {
 
         System.out.println(firm.getAverageSentimentJson());
         System.out.println(firm.getSentimentTextJson());
-    }*/
+    }
 }

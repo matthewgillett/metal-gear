@@ -1,7 +1,9 @@
 package org.finra.metal.gear.Sentiment;
 
+import com.amazonaws.services.rds.AmazonRDSClient;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import org.finra.metal.gear.Infrastructure.AwsClientFactory;
 
 import java.io.IOException;
 import java.sql.*;
@@ -13,14 +15,22 @@ import java.util.*;
 public class SentimentData {
     private Connection connection;
 
-    public SentimentData(String hostName, int port, String dbName, String userName, String password) throws SQLException {
+    private final AwsClientFactory awsClientFactory;
+
+    public SentimentData(AwsClientFactory awsClientFactory) {
+        this.awsClientFactory = awsClientFactory;
+    }
+
+    public SentimentData(AwsClientFactory awsClientFactory, String hostName, int port, String dbName, String userName, String password) throws SQLException {
+        this.awsClientFactory = awsClientFactory;
+
         Properties properties = new Properties();
 
         if (userName != null)
             properties.setProperty("user", userName);
         if (password != null)
             properties.setProperty("password", password);
-//        properties.setProperty("ssl", "true");
+        properties.setProperty("ssl", "false");
         connection = DriverManager.getConnection("jdbc:postgresql://" + hostName + ":" + port + "/" + dbName,
                 properties);
     }
@@ -90,6 +100,9 @@ public class SentimentData {
     }
 
     public long getFirmId(String firmName) throws SQLException {
+
+        AmazonRDSClient amazonRDSClient = awsClientFactory.createRDSClient();
+
         try (Statement stmt = connection.createStatement()) {
             try (ResultSet rs = stmt.executeQuery("SELECT firm_id FROM firms " +
                     "WHERE firm_name = '" + firmName + "'")) {
