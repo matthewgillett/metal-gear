@@ -3,6 +3,7 @@ package org.finra.metal.gear.Sentiment;
 import com.google.gson.Gson;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +49,10 @@ public class SentimentFirm {
         }
 
         return (int)Math.round(total / sentimentList.size());
+    }
+
+    public Timestamp getLastUpdate() throws SQLException {
+        return database.getLastUpdate(firmId);
     }
 
     public String getAverageSentimentJson() {
