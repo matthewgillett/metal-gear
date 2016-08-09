@@ -121,7 +121,7 @@ public class SentimentData {
 
     public long getFirmId(String firmName) throws SQLException {
         try (Statement stmt = connection.createStatement()) {
-            try (ResultSet rs = stmt.executeQuery("SELECT " + schemaNameDot + "firm_id FROM " + schemaNameDot + "firms " +
+            try (ResultSet rs = stmt.executeQuery("SELECT firm_id FROM " + schemaNameDot + "firms " +
                     "WHERE firm_name = '" + firmName + "'")) {
                 if (rs.next()) {
                     return rs.getLong(1);
@@ -162,6 +162,18 @@ public class SentimentData {
                 stmt.addBatch();
             }
             return stmt.executeBatch();
+        }
+    }
+
+    public List<Long> getFirms() throws SQLException {
+        try (Statement stmt = connection.createStatement()) {
+            try (ResultSet rs = stmt.executeQuery("SELECT DISTINCT firm_id FROM " + schemaNameDot + "firms")) {
+                List<Long> firms = new ArrayList<>();
+                while (rs.next()) {
+                    firms.add(rs.getLong(1));
+                }
+                return firms;
+            }
         }
     }
 }
