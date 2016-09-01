@@ -78,7 +78,11 @@
 			<artifactId>twitter4j-core</artifactId>
 			<version>[4.0,)</version>
 		</dependency>
-	</dependencies>
+		<dependency>
+			<groupId>com.twitter</groupId>
+			<artifactId>twitter-text</artifactId>
+			<version>1.6.1</version>
+		</dependency></dependencies>
 
 	<build>
 		<plugins>

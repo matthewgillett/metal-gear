@@ -1,4 +1,4 @@
-package org.finra.metal.gear.Sentiment;
+package org.finra.metal.gear.sentiment;
 
 /**
  * Created by k26142 on 8/8/16.

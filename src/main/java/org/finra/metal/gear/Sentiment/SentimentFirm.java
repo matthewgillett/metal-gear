@@ -1,4 +1,4 @@
-package org.finra.metal.gear.Sentiment;
+package org.finra.metal.gear.sentiment;
 
 import com.google.gson.Gson;
 
@@ -36,13 +36,13 @@ public class SentimentFirm {
         this.firmName = database.getFirmName(firmId);
     }
 
-    public boolean addSentiment(String userId, String text) throws SQLException {
-        sentimentList.add(new SentimentText(userId, text, analyzer.determineSentiment(text)));
+    public boolean addSentiment(String userId, String text, String createDate) throws SQLException {
+        sentimentList.add(new SentimentText(userId, text, analyzer.determineSentiment(text), createDate));
         return database.insertTextData(firmId, sentimentList.get(sentimentList.size() - 1));
     }
 
-    public void addSentimentBatch(String userId, String text) {
-        sentimentListBatch.add(new SentimentText(userId, text, analyzer.determineSentiment(text)));
+    public void addSentimentBatch(String userId, String text, String createDate) {
+        sentimentListBatch.add(new SentimentText(userId, text, analyzer.determineSentiment(text), createDate));
     }
 
     public int[] executeBatch() throws SQLException {
@@ -71,6 +71,10 @@ public class SentimentFirm {
 
     public Timestamp getLastUpdate() throws SQLException {
         return database.getLastUpdate(firmId);
+    }
+
+    public int refreshTextsSinceDate(String date) throws SQLException {
+        return database.refreshTextsSinceDate(firmId, date);
     }
 
     public String getAverageSentimentJson() throws SQLException {

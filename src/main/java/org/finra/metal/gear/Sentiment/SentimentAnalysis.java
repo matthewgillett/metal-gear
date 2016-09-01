@@ -1,4 +1,4 @@
-package org.finra.metal.gear.Sentiment;
+package org.finra.metal.gear.sentiment;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.neural.rnn.RNNCoreAnnotations;

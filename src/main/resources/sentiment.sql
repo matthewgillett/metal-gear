@@ -1,4 +1,8 @@
 DROP SCHEMA IF EXISTS metalgear CASCADE;
+
+DROP ROLE IF EXISTS metal_gear;
+CREATE ROLE metal_gear;
+
 CREATE SCHEMA metalgear;
 ALTER SCHEMA metalgear OWNER TO metal_gear;
 
@@ -11,7 +15,8 @@ text_id bigint,
 firm_id bigint,
 user_id varchar(50),
 text varchar(2000),
-sentiment decimal
+sentiment decimal,
+create_dt date
 );
 
 DROP TABLE IF EXISTS metalgear.firms;

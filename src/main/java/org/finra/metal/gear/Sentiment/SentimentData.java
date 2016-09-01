@@ -1,10 +1,11 @@
-package org.finra.metal.gear.Sentiment;
+package org.finra.metal.gear.sentiment;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
 import java.io.IOException;
 import java.sql.*;
+import java.sql.Date;
 import java.util.*;
 
 /**
@@ -35,24 +36,23 @@ public class SentimentData {
 
     public void initDatabase() throws IOException, SQLException {
         Statement stmt = connection.createStatement();
-
         stmt.executeUpdate(Resources.toString(Resources.getResource("sentiment.sql"), Charsets.UTF_8));
     }
 
     public List<SentimentText> getSentimentList(long firmId) throws SQLException {
-        List<SentimentText> sentimentMap = new ArrayList<>();
+        List<SentimentText> sentimentList = new ArrayList<>();
 
         try (Statement stmt = connection.createStatement()) {
             try (ResultSet rs = stmt.executeQuery("SELECT * FROM " + schemaNameDot + "texts " +
                     "WHERE firm_id = '" + firmId + "'")) {
                 while (rs.next()) {
-                    SentimentText data = new SentimentText(rs.getString(3), rs.getString(4), rs.getDouble(5));
-                    sentimentMap.add(data);
+                    SentimentText data = new SentimentText(rs.getString(3), rs.getString(4), rs.getDouble(5), rs.getString(6));
+                    sentimentList.add(data);
                 }
             }
         }
 
-        return sentimentMap;
+        return sentimentList;
     }
 
     public boolean insertTextData(long firmId, SentimentText textData) throws SQLException {
@@ -79,11 +79,12 @@ public class SentimentData {
         stmt.setString(2, textData.getUserId());
         stmt.setString(3, textData.getText());
         stmt.setDouble(4, textData.getSentimentDecimal());
+        stmt.setDate(5, Date.valueOf(textData.getCreateDate()));
     }
 
     private PreparedStatement insertTextDataPrepare() throws SQLException {
         return connection.prepareStatement("INSERT INTO " + schemaNameDot + "texts VALUES " +
-                "(nextval('" + schemaNameDot + "text_id_num'), ?, ?, ?, ?)");
+                "(nextval('" + schemaNameDot + "text_id_num'), ?, ?, ?, ?, ?)");
     }
 
     public int getAverageSentiment(long firmId) throws SQLException {
@@ -117,6 +118,14 @@ public class SentimentData {
             }
         }
         return null;
+    }
+
+    public int refreshTextsSinceDate(long firmId, String date) throws SQLException {
+        try (Statement stmt = connection.createStatement()) {
+            return stmt.executeUpdate("delete from " + schemaNameDot + "texts " +
+                    "where firm_id = '" + firmId + "' " +
+                    "and create_dt >= '" + date + "'");
+        }
     }
 
     public long getFirmId(String firmName) throws SQLException {
@@ -157,7 +166,7 @@ public class SentimentData {
                 String[] values = line.split(delimiter);
 
                 stmt.setLong(1, Long.valueOf(values[0]));
-                stmt.setString(2, values[6]);
+                stmt.setString(2, values[1]);
 
                 stmt.addBatch();
             }

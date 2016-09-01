@@ -1,8 +1,9 @@
 package org.finra.metal.gear;
 
-import org.finra.metal.gear.Sentiment.SentimentAnalysis;
-import org.finra.metal.gear.Sentiment.SentimentData;
-import org.finra.metal.gear.Sentiment.SentimentFirm;
+import org.finra.metal.gear.Controllers.HelloController;
+import org.finra.metal.gear.sentiment.SentimentAnalysis;
+import org.finra.metal.gear.sentiment.SentimentData;
+import org.finra.metal.gear.sentiment.SentimentFirm;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -13,20 +14,22 @@ import java.util.List;
  */
 public class MetalGearSentiment {
 
-//    public static void main(String[] args) throws IOException, SQLException {
-//
-//        SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
-//        SentimentData database = new SentimentData("metal-gear1.c9dfyqjobtqf.us-east-1.rds.amazonaws.com", 5432, "metal_gear", "metal_gear", "metal_gear");
-////        SentimentData database = new SentimentData("localhost", 5439, "metalgear", null, null);
-//
-////        database.initDatabase();
-//        database.setSchema("metalgear");
-//
-//        List<Long> firms = database.getFirms();
-//
-//        for (Long firmId : firms) {
-//            SentimentFirm firm = new SentimentFirm(analyzer, database, firmId);
-//
+    public static void main(String[] args) throws IOException, SQLException {
+
+        SentimentAnalysis analyzer = new SentimentAnalysis("nlp.properties");
+        SentimentData database = new SentimentData("localhost", 5439, "metalgear", null, null);
+
+//        database.initDatabase();
+        database.setSchema("metalgear");
+//        database.loadFirms("firmdata.txt", "\\|");
+
+        List<Long> firms = database.getFirms();
+
+        for (Long firmId : firms) {
+            SentimentFirm firm = new SentimentFirm(analyzer, database, firmId);
+
+            HelloController.processTweets(database.getFirmName(firmId), firm);
+
 //            int rand = (int)(Math.random() * 10);
 //
 //            if (rand > 7)
@@ -39,9 +42,9 @@ public class MetalGearSentiment {
 //                firm.addSentimentBatch("Some_user4", "This is the worst string in the whole world; it is terrible!");
 //                firm.addSentimentBatch("Some_user2", "This is actually the worst string in the whole world; it is terrible!");
 //            }
-//
+
 //            firm.executeBatch();
 //            firm.updateAverageSentiment();
-//        }
-//    }
+        }
+    }
 }
